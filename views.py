@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 
 from models import User, Activity
 from models import session, db, engine
@@ -72,13 +72,9 @@ def show_activity_all_from_user(user_id):
     # user = User.query.filter_by(id=user_id).first()   ''' Not working '''
     # user = session.query(User).filter_by(id=user_id).first()
 
-    user = session.query(User).all()
-    print(type(user))
-    s = ''
-    for r in user:
-        t = f'<p>{r.id} | {r.name} | {r.role} | {r.date}</p>'
-        s = s + t
+    user = session.query(User).where(User.id==user_id).all()
     # s = f'<h1>Showing all activities of user {user.name}</h1>'
     # for a in user.activity:
     #     s = s + f'<p>{a.id} | {a.distance}</p>'
-    return s
+    result = user
+    return render_template('show_all_users.html', result=result)

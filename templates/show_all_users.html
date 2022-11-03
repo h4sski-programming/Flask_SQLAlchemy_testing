@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Users</h3>
+<table class="table table-sm">
+    {% for r in result %}
+    <tr>
+        <td>{{r.id}}</td>
+        <td>{{r.name}}</td>
+        <td>{{r.role}}</td>
+        <td>{{r.date}}</td>
+        <td>buttons</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h3>Activities</h3>
+<table class="table table-sm">
+    {% for r in result %}
+    <tr>
+        <td>{{r.activity.id}}</td>
+        <td>{{r.activity.user_id}}</td>
+        <td>{{r.activity.distance}}</td>
+        <td>{{r.activity.time_create}}</td>
+        <td>{{r.activity.time_update}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

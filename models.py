@@ -7,7 +7,6 @@ from sqlalchemy.orm import relationship, Session, sessionmaker
 DB_NAME = 'database.db'
 engine = create_engine(f'sqlite:///{DB_NAME}', echo=True, future=True)
 session = Session(engine)
-# session = sessionmaker(bind=engine)
 db = SQLAlchemy()
 
 
