@@ -63,3 +63,11 @@ def show_activity_all(user_id):
     for a in activity:
         s = s + f'<p>{a.id} | {a.distance}</p>'
     return s
+
+@views.route('/activity/show_all_user/<user_id>')
+def show_activity_all_from_user(user_id):
+    user = session.query(User).filter_by(id=user_id).first()
+    s = f'<h1>Showing all activities of user {user.name}</h1>'
+    for a in user.activity:
+        s = s + f'<p>{a.id} | {a.distance}</p>'
+    return s
