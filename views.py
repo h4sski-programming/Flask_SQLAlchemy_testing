@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from models import User
+from models import User, Activity
 from models import db, session
 
 views = Blueprint('views', __name__)
@@ -22,6 +22,7 @@ def by_id(user_id):
     user = session.query(User).filter_by(id=user_id).first()
     return f'<h1>{user.name} with role {user.role}. Created at {user.date}</h1>'
 
+
 @views.route('/update/<user_id>/<n>/<r>')
 def update(user_id, n, r):
     user = session.query(User).filter_by(id=user_id).first()
@@ -37,3 +38,28 @@ def create(n, r):
     session.commit()
     print(f'{user.id}\t{user.name}\t{user.role}\t{user.date}')
     return f'<h1>Added user {user.name} with role {user.role}</h1>'
+
+
+@views.route('/activity/add/<user_id>/<distance>')
+def create_activity(user_id, distance):
+    activity = Activity(user_id=user_id, distance=distance)
+    session.add(activity)
+    session.commit()
+    s = f'<h1>Added activity</h1><p>{activity.user_id}</br>{activity.distance}</p>'
+    return s
+
+@views.route('/activity/show/<activity_id>')
+def show_activity(activity_id):
+    activity = session.query(Activity).filter_by(id=activity_id).first()
+    s = f'<h1>Showing activity</h1><p>Activity ID = {activity.id}<br/>\
+        User id = {activity.user_id}<br/>Distance = {activity.distance}</p>'
+    return s
+
+@views.route('/activity/show_all/<user_id>')
+def show_activity_all(user_id):
+    user = session.query(User).filter_by(id=user_id).first()
+    activity = session.query(Activity).filter_by(user_id=user.id).all()
+    s = f'<h1>Showing all activities of user {user.name}</h1>'
+    for a in activity:
+        s = s + f'<p>{a.id} | {a.distance}</p>'
+    return s
