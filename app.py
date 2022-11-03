@@ -1,7 +1,7 @@
 from os import path
 from flask import Flask
 
-import models
+from models import create_db_app
 from models import DB_NAME
 from views import views
 
@@ -15,7 +15,7 @@ def main():
     app.register_blueprint(views, url_prefix='/')
 
     if not path.exists(f'/{DB_NAME}'):
-        models.create_db_app(app)
+        create_db_app(app)
 
     app.run(debug=True)
 
