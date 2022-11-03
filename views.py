@@ -1,7 +1,7 @@
 from flask import Blueprint
 
 from models import User, Activity
-from models import db, session
+from models import session
 
 views = Blueprint('views', __name__)
 
@@ -48,12 +48,14 @@ def create_activity(user_id, distance):
     s = f'<h1>Added activity</h1><p>{activity.user_id}</br>{activity.distance}</p>'
     return s
 
+
 @views.route('/activity/show/<activity_id>')
 def show_activity(activity_id):
     activity = session.query(Activity).filter_by(id=activity_id).first()
     s = f'<h1>Showing activity</h1><p>Activity ID = {activity.id}<br/>\
         User id = {activity.user_id}<br/>Distance = {activity.distance}</p>'
     return s
+
 
 @views.route('/activity/show_all/<user_id>')
 def show_activity_all(user_id):
@@ -63,6 +65,7 @@ def show_activity_all(user_id):
     for a in activity:
         s = s + f'<p>{a.id} | {a.distance}</p>'
     return s
+
 
 @views.route('/activity/show_all_user/<user_id>')
 def show_activity_all_from_user(user_id):

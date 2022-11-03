@@ -29,9 +29,5 @@ class Activity(db.Model):
 
 
 def create_db_app(app):
-    # db.init_app(app)
     if not path.exists(f'/{DB_NAME}'):
-        # db.init_app(app)
-        # db.create_all()
-        # db.metadata.create_all()
         db.metadata.create_all(engine)
