@@ -1,7 +1,7 @@
 from flask import Blueprint
 
 from models import User, Activity
-from models import session
+from models import session, db, engine
 
 views = Blueprint('views', __name__)
 
@@ -69,8 +69,16 @@ def show_activity_all(user_id):
 
 @views.route('/activity/show_all_user/<user_id>')
 def show_activity_all_from_user(user_id):
-    user = session.query(User).filter_by(id=user_id).first()
-    s = f'<h1>Showing all activities of user {user.name}</h1>'
-    for a in user.activity:
-        s = s + f'<p>{a.id} | {a.distance}</p>'
+    # user = User.query.filter_by(id=user_id).first()   ''' Not working '''
+    # user = session.query(User).filter_by(id=user_id).first()
+
+    user = session.query(User).all()
+    print(type(user))
+    s = ''
+    for r in user:
+        t = f'<p>{r.id} | {r.name} | {r.role} | {r.date}</p>'
+        s = s + t
+    # s = f'<h1>Showing all activities of user {user.name}</h1>'
+    # for a in user.activity:
+    #     s = s + f'<p>{a.id} | {a.distance}</p>'
     return s

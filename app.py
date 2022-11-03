@@ -14,8 +14,7 @@ def main():
 
     app.register_blueprint(views, url_prefix='/')
 
-    if not path.exists(f'/{DB_NAME}'):
-        create_db_app(app)
+    create_db_app()
 
     app.run(debug=True)
 

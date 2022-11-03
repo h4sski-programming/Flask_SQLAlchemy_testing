@@ -2,11 +2,12 @@ from os import path
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, DateTime, func, ForeignKey, create_engine
-from sqlalchemy.orm import relationship, Session
+from sqlalchemy.orm import relationship, Session, sessionmaker
 
 DB_NAME = 'database.db'
 engine = create_engine(f'sqlite:///{DB_NAME}', echo=True, future=True)
 session = Session(engine)
+# session = sessionmaker(bind=engine)
 db = SQLAlchemy()
 
 
@@ -28,6 +29,6 @@ class Activity(db.Model):
     time_update = Column(DateTime(timezone=True), onupdate=func.now())
 
 
-def create_db_app(app):
+def create_db_app():
     if not path.exists(f'/{DB_NAME}'):
         db.metadata.create_all(engine)
